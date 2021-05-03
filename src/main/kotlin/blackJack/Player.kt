@@ -17,10 +17,21 @@ class Player(val name:String) {
 
     fun getScore():Int {
         var score = 0
+        var aceCount = 0
+
         for (card in hands) {
-            score += if (card.number >= 10) 10 else card.number
+            var num = card.number
+            if (num > 10) num = 10
+            if (num == 1) aceCount++
+                else score += num
         }
-        return score
+
+        if (aceCount == 0) return score
+
+        var aceScore = 11 + aceCount - 1
+        if (aceScore + score > 21) aceScore = aceCount
+
+        return score + aceScore
     }
 
     fun isBurst() = getScore() > 21
